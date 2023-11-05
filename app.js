@@ -1,8 +1,7 @@
 const game = () => {
   let pScore = 0;
   let cScore = 0;
-
-  //Start the Game
+  //the function to start the game fadeout the intro and fade in the match
   const startGame = () => {
     const playBtn = document.querySelector(".intro button");
     const introScreen = document.querySelector(".intro");
@@ -13,35 +12,34 @@ const game = () => {
       match.classList.add("fadeIn");
     });
   };
-  //Play Match
   const playMatch = () => {
     const options = document.querySelectorAll(".options button");
     const playerHand = document.querySelector(".player-hand");
     const computerHand = document.querySelector(".computer-hand");
     const hands = document.querySelectorAll(".hands img");
 
-    hands.forEach(hand => {
-      hand.addEventListener("animationend", function() {
+    hands.forEach((hand) => {
+      hand.addEventListener("animationend", function () {
         this.style.animation = "";
       });
     });
-    //Computer Options
     const computerOptions = ["rock", "paper", "scissors"];
 
-    options.forEach(option => {
-      option.addEventListener("click", function() {
-        //Computer Choice
+    options.forEach((option) => {
+      option.addEventListener("click", function () {
+        // so for each option we have the option go call a function to give a number from 0.3 and from that we gonna select the game option
         const computerNumber = Math.floor(Math.random() * 3);
         const computerChoice = computerOptions[computerNumber];
+        console.log(computerChoice);
 
         setTimeout(() => {
-          //Here is where we call compare hands
-          compareHands(this.textContent, computerChoice);
-          //Update Images
+          //here is we call compare fun compare hand
+          compareHand(this.textContent, computerChoice);
+
+          //UPDATE THE IMAGES
           playerHand.src = `./assets/${this.textContent}.png`;
           computerHand.src = `./assets/${computerChoice}.png`;
         }, 2000);
-        //Animation
         playerHand.style.animation = "shakePlayer 2s ease";
         computerHand.style.animation = "shakeComputer 2s ease";
       });
@@ -55,15 +53,14 @@ const game = () => {
     computerScore.textContent = cScore;
   };
 
-  const compareHands = (playerChoice, computerChoice) => {
-    //Update Text
+  const compareHand = (playerChoice, computerChoice) => {
     const winner = document.querySelector(".winner");
-    //Checking for a tie
+    //checking for a tie
     if (playerChoice === computerChoice) {
-      winner.textContent = "It is a tie";
+      winner.textContent = "it is a tie";
       return;
     }
-    //Check for Rock
+    //checking for a rock
     if (playerChoice === "rock") {
       if (computerChoice === "scissors") {
         winner.textContent = "Player Wins";
@@ -71,46 +68,51 @@ const game = () => {
         updateScore();
         return;
       } else {
-        winner.textContent = "Computer Wins";
+        winner.textContent = "computer Wins";
         cScore++;
         updateScore();
+
         return;
       }
     }
-    //Check for Paper
+    //check for paper
     if (playerChoice === "paper") {
       if (computerChoice === "scissors") {
-        winner.textContent = "Computer Wins";
+        winner.textContent = "computer Wins";
         cScore++;
         updateScore();
+
         return;
       } else {
-        winner.textContent = "Player Wins";
+        winner.textContent = "player Wins";
         pScore++;
         updateScore();
+
         return;
       }
     }
-    //Check for Scissors
+
+    //check for scissors
     if (playerChoice === "scissors") {
       if (computerChoice === "rock") {
-        winner.textContent = "Computer Wins";
+        winner.textContent = "computer Wins";
         cScore++;
         updateScore();
+
         return;
       } else {
-        winner.textContent = "Player Wins";
+        winner.textContent = "player Wins";
         pScore++;
         updateScore();
+
         return;
       }
     }
   };
 
-  //Is call all the inner function
+  //we call the function here
   startGame();
   playMatch();
 };
-
-//start the game function
+//we call the game here to start all the function
 game();
